@@ -59,7 +59,7 @@ static void get_sdl_pix_fmt_and_blendmode(int format, Uint32& sdl_pix_fmt, SDL_B
     return;
 }
 
-static Uint32 callback(Uint32 internal, void* param) {
+Uint32 callback(Uint32 internal, void* param) {
     if (!param) {
         return 0;
     }

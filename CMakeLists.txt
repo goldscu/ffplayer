@@ -2,16 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(ffplayer)
 
-include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-
-find_package(FFMPEG REQUIRED)
-find_package(SDL2 CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
 
 add_executable(ffplayer
     ${PROJECT_SOURCE_DIR}/src/main.cpp
@@ -33,10 +25,48 @@ add_executable(ffplayer
 )
 
 target_include_directories(ffplayer PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(ffplayer
-    PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    ${FFMPEG_LIBRARIES}
-    spdlog::spdlog
-)
+file(GLOB_RECURSE HEADER_FILES ${PROJECT_SOURCE_DIR}/include/*.h)
+target_sources(ffplayer PRIVATE ${HEADER_FILES})
+
+if(WIN32)
+    message(STATUS "Building on Windows")
+
+    include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
+    find_package(FFMPEG REQUIRED)
+    find_package(SDL2 CONFIG REQUIRED)
+    find_package(spdlog CONFIG REQUIRED)
+
+    target_link_libraries(ffplayer
+        PRIVATE
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+        ${FFMPEG_LIBRARIES}
+        spdlog::spdlog
+    )
+elseif(APPLE)
+    # 安装依赖：brew install ffmpeg sdl2 spdlog
+    message(STATUS "Building on MacOS")
+    include_directories(
+        /opt/homebrew/include
+        /opt/homebrew/include/SDL2
+    )
+    target_link_directories(ffplayer PRIVATE /opt/homebrew/lib)
+
+    target_link_libraries(ffplayer
+        PRIVATE
+        SDL2
+        avcodec
+        avformat
+        avutil
+        swresample
+        swscale
+        spdlog
+        fmt
+    )
+else()
+    message(STATUS "Not supported platform")
+endif()

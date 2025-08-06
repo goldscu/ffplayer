@@ -12,7 +12,7 @@ extern "C" {
 }
 #endif
 
-static void callback(void *opaque, Uint8 *steram, int len) {
+void callback(void *opaque, Uint8 *steram, int len) {
     if (!opaque) {
         return;
     }
