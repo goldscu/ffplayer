@@ -15,7 +15,7 @@ class Player {
 public:
     Player();
 
-    int open(const char *filename);
+    bool open(const char *filename);
     void start();
     void close();
     

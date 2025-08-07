@@ -8,7 +8,7 @@ Player::Player()
     SDL_Init(SDL_INIT_EVERYTHING);
 }
 
-int Player::open(const char *filename) {
+bool Player::open(const char *filename) {
     m_ctx = std::make_shared<Context>(filename);
     m_demuxer = std::make_shared<Demuxer>(m_ctx);
     m_audio_decoder = std::make_shared<AudioDecoder>(m_ctx);
@@ -16,13 +16,19 @@ int Player::open(const char *filename) {
     m_audio_player = std::make_shared<AudioPlayer>(m_ctx);
     m_video_player = std::make_shared<VideoPlayer>(m_ctx);
 
-    m_demuxer->open();
-    m_audio_decoder->open();
-    m_video_decoder->open();
-    m_audio_player->open();
-    m_video_player->open();
+    int ret = m_demuxer->open();
+    if (ret >= 0) {
+        ret = m_audio_decoder->open();
+    }
+    if (ret >= 0) {
+        ret = m_video_decoder->open();
+    }
+    if (ret >= 0) {
+        m_audio_player->open();
+        m_video_player->open();
+    }
 
-    return 0;
+    return ret >= 0;
 }
 
 void Player::start() {

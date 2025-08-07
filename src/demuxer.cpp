@@ -17,12 +17,12 @@ Demuxer::~Demuxer() {
 int Demuxer::open() {
     int ret = avformat_open_input(&m_ctx->fmt_ctx, m_ctx->filename, m_ctx->iformat, nullptr);
     if (ret < 0) {
-        spdlog::error("avformat_open_input failed, ret={}", ret);
+        spdlog::error("avformat_open_input failed, ret={} {}", ret, av_err2str(ret));
         return -1;
     }
     ret = avformat_find_stream_info(m_ctx->fmt_ctx, nullptr);
     if (ret < 0) {
-        spdlog::error("avformat_find_stream_info failed, ret={}", ret);
+        spdlog::error("avformat_find_stream_info failed, ret={} {}", ret, av_err2str(ret));
         return -1;
     }
     m_ctx->max_frame_duration = (m_ctx->fmt_ctx->iformat->flags & AVFMT_TS_DISCONT) ? 10.0 : 3600.0;

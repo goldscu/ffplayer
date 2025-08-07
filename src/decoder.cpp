@@ -19,6 +19,10 @@ Decoder::~Decoder() {
 int Decoder::open() {
     const AVCodec *codec = nullptr;
     AVFormatContext *fmt_ctx = m_ctx->fmt_ctx;
+    if (fmt_ctx == NULL) {
+        spdlog::error("Decoder::open AVFormatContext == NULL");
+        return -1;
+    }
     int stream_index = av_find_best_stream(fmt_ctx, m_media_type, -1, -1, &codec, 0);
     if (stream_index < 0 || stream_index >= (int)fmt_ctx->nb_streams) {
         spdlog::error("av_find_best_stream failed, stream_index={}", stream_index);
@@ -28,7 +32,7 @@ int Decoder::open() {
     avcodec_parameters_to_context(codec_ctx, fmt_ctx->streams[stream_index]->codecpar);
     int ret = avcodec_open2(codec_ctx, codec, nullptr);
     if (ret < 0) {
-        spdlog::error("avcodec_open2 failed, ret={}", ret);
+        spdlog::error("avcodec_open2 failed, ret={} {}", ret, av_err2str(ret));
         return -1;
     }
     return _open(stream_index, codec_ctx);
