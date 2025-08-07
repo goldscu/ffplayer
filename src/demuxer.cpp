@@ -146,9 +146,7 @@ void Demuxer::demux_loop() {
 
         // TODO queue_attachments_req
 
-        if (m_ctx->audio_packet_queue.size() +
-            m_ctx->video_packet_queue.size() +
-            m_ctx->subtitle_packet_queue.size() > MAX_QUEUE_SIZE ||
+        if (m_ctx->audio_packet_queue.size() + m_ctx->video_packet_queue.size() + m_ctx->subtitle_packet_queue.size() > MAX_QUEUE_SIZE ||
             m_ctx->audio_packet_queue.count() > MIN_FRAMES ||
             m_ctx->video_packet_queue.count() > MIN_FRAMES ||
             m_ctx->subtitle_packet_queue.count() > MIN_FRAMES) {

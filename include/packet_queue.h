@@ -19,6 +19,7 @@ extern "C" {
 class PacketQueue {
     struct Packet {
         AVPacket *pkt; // packet 数据
+        /** 播放序号，表示一次无seek的连续播放 */
         int serial;    // 当前时序
     };
     friend class Context;
@@ -40,6 +41,7 @@ private:
     int m_size = 0;         // 当前队列包的总大小
     int64_t m_duration = 0; // 当前队列包的总播放时长
 
+    /** 播放序号，表示一次无seek的连续播放 */
     int m_serial = 1;
     std::atomic<bool> m_abort_request = false;
 

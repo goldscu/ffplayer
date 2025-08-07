@@ -7,11 +7,11 @@ static void ThreadEntry (void *arg) {
 }
 
 ThreadBase::ThreadBase() {
-    spdlog::info("ThreadBase::ThreadBase, this={}", static_cast<void *>(this));
+    spdlog::info("ThreadBase::ThreadBase, this={} {}", static_cast<void *>(this), typeid(this).name());
 }
 
 ThreadBase::~ThreadBase() {
-    spdlog::info("ThreadBase::~ThreadBase, this={}", static_cast<void*>(this));
+    spdlog::info("ThreadBase::~ThreadBase, this={} {}", static_cast<void*>(this), typeid(this).name());
     stop();
 }
 

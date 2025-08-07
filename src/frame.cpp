@@ -16,9 +16,9 @@ double Frame::vf_duration(Frame *nextvp, double max_frame_duration) {
 
 void Frame::reset() {
     av_frame_unref(frame);
-    serial = 0; // ¸ÃÖ¡µÄĞòÁĞºÅ£¬ÓÃÓÚseek²Ù×÷
-    pts = 0.0; // ¸ÃÖ¡µÄÏÔÊ¾Ê±¼ä´Á£¨Presentation Time Stamp£©£¬±íÊ¾¸ÃÖ¡Ó¦¸ÃÔÚ²¥·ÅÊ±ÏÔÊ¾µÄÊ±¼ä
-    duration = 0.0; // ¸ÃÖ¡µÄ³ÖĞøÊ±¼ä£¬±íÊ¾¸ÃÖ¡µÄÏÔÊ¾Ê±³¤
-    uploaded = 0; // ÕâÒ»Ö¡ÊÇ·ñÒÑ¾­ÉÏ´«µ½äÖÈ¾Æ÷ÖĞÁË
-    pos = 0; // ¸ÃÖ¡ÔÚÎÄ¼şÖĞµÄÎ»ÖÃ£¬ÓÃÓÚ¶¨Î»¸ÃÖ¡µÄÀ´Ô´ /* byte position of the frame in the input file */
+    serial = 0; // è¯¥å¸§çš„åºåˆ—å·ï¼Œç”¨äºseekæ“ä½œ
+    pts = 0.0; // è¯¥å¸§çš„æ˜¾ç¤ºæ—¶é—´æˆ³ï¼ˆPresentation Time Stampï¼‰ï¼Œè¡¨ç¤ºè¯¥å¸§åº”è¯¥åœ¨æ’­æ”¾æ—¶æ˜¾ç¤ºçš„æ—¶é—´
+    duration = 0.0; // è¯¥å¸§çš„æŒç»­æ—¶é—´ï¼Œè¡¨ç¤ºè¯¥å¸§çš„æ˜¾ç¤ºæ—¶é•¿
+    uploaded = 0; // è¿™ä¸€å¸§æ˜¯å¦å·²ç»ä¸Šä¼ åˆ°æ¸²æŸ“å™¨ä¸­äº†
+    pos = 0; // è¯¥å¸§åœ¨æ–‡ä»¶ä¸­çš„ä½ç½®ï¼Œç”¨äºå®šä½è¯¥å¸§çš„æ¥æº /* byte position of the frame in the input file */
 }

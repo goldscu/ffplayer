@@ -11,13 +11,20 @@ class FrameQueue {
 public:
     FrameQueue(PacketQueue *pktq, int max_size, int keep_last);
     ~FrameQueue();
+    /** 找到可写入帧 */
     Frame *peek_writable();
+    /** 推送一帧数据到队列 */
     void push();
+    /** 读取一帧数据 */
     Frame *peek_readable();
+    /** 读走一帧数据 */
     void next();
 
+    /** 查找上一帧 */
     Frame *peek_last();
+    /** 查找当前帧 */
     Frame *peek();
+    /** 查找下一帧 */
     Frame *peek_next();
 
     int nb_remaining();
