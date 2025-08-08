@@ -48,6 +48,7 @@ if(WIN32)
         spdlog::spdlog
     )
 elseif(APPLE)
+    # 其它直接和Windows上一样用vcpkg安装依赖也可以
     # 安装依赖：brew install ffmpeg sdl2 spdlog
     message(STATUS "Building on MacOS")
     include_directories(

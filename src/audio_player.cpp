@@ -59,6 +59,9 @@ int AudioPlayer::stop() {
 
 int AudioPlayer::close() {
     stop();
+    if (m_audio_dev_id > 0) {
+        SDL_CloseAudioDevice(m_audio_dev_id);
+    }
     return 0;
 }
 
